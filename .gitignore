@@ -1,0 +1,9 @@
+# Runtime artifacts produced by workflow execution
+docs/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
