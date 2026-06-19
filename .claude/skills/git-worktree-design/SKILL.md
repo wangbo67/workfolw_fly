@@ -1,5 +1,5 @@
 ---
-name: Git Worktree Design
+name: git-worktree-design
 description: 当使用者的需求是新增多个功能，或判断使用者的需求适合拆分成多个 feature branch 并行开发时，或是提到 "worktree"、"git worktree"、"多分支开发"、"parallel branches"，自动触发此 Skill。先分析需求并建议 worktree 拆分方案，经使用者确认后执行建立。
 ---
 
