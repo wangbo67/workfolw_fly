@@ -31,5 +31,20 @@ npm run build        # 构建生产包（会先自动执行 gen-skills）
 npm run preview      # 预览构建产物
 ```
 
-`src/data/skills.json` 由 `scripts/gen-skills.mjs` 生成，已在 `.gitignore` 中忽略，新增 skill 后重新跑 `npm run gen-skills` 即可自动出现在欢迎页目录。
+### 功能
+
+- **欢迎介绍区**：应用简介与「浏览 skills」CTA，点击平滑滚动到目录
+- **Skill 目录卡片网格**：响应式布局（手机单列 / 平板两列 / 桌面三列），列出所有 skill 的名称与描述，支持长描述展开收起
+- **跳转 GitHub 目录**：点击任一 skill 卡片，在新分页打开该 skill 在 GitHub 仓库的对应目录页
+
+### 数据链路
+
+`src/data/skills.json` 由 `scripts/gen-skills.mjs` 在 dev / build 前自动生成（已在 `.gitignore` 中忽略）：
+
+- 扫描 `.claude/skills/*/SKILL.md`，解析 YAML frontmatter 的 `name` / `description`
+- 通过 `git remote get-url origin` 推导 GitHub 仓库地址（兼容 https 与 ssh 格式），为每个 skill 生成 `githubUrl`
+- 新增 skill 后重新跑 `npm run gen-skills` 即可自动出现在欢迎页目录，换仓库无需改代码
+
+仓库地址、默认分支、skills 目录路径集中配置在 `src/config.ts`，可通过环境变量 `VITE_GITHUB_REPO_URL` 覆盖默认 repo URL。
+
 
