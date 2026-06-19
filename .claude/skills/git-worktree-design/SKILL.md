@@ -148,11 +148,11 @@ cd <worktree_path> && <package_manager> install
 
 ---
 
-### 5. 写入 Feature Spec 档案
+### 5. 写入 Feature Spec 文档
 
 将步骤 2 设计好的 Spec 内容，使用 `write_to_file` 工具写入到每个 worktree 的根目录 `<worktree_path>/git-worktree-spec.md`。
 
-#### Spec 档案格式
+#### Spec 文档格式
 
 ```markdown
 # Feature Spec: <功能名称>
