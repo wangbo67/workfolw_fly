@@ -86,9 +86,10 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task, AskUserQuestion, TodoW
 步骤：
 1. 读取 docs/review.md 的完整内容
 2. 对每个审查问题，制定具体修复方案：修改哪个文件的哪部分、怎么改、预期效果
-3. 对修复项进行优先级分类（Critical / Important / Minor），给出分类理由
-4. 按优先级排序写入 docs/fix-plan.md
-5. 每个修复项包含：对应审查问题编号、修复方案、涉及文件、风险评估、优先级分类及理由
+3. 修复方案最多3个，以列表的形式给出以便选择，并给出1个推荐的
+4. 对修复项进行优先级分类（Critical / Important / Minor），给出分类理由
+5. 按优先级排序写入 docs/fix-plan.md
+6. 每个修复项包含：对应审查问题编号、修复方案、涉及文件、风险评估、优先级分类及理由
 
 ### fix
 
