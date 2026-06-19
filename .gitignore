@@ -7,3 +7,10 @@ docs/
 # Editor
 .vscode/
 .idea/
+
+# Frontend (welcome app)
+node_modules/
+dist/
+src/data/skills.json
+tsconfig.tsbuildinfo
+*.tsbuildinfo
