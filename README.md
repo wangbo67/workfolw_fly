@@ -19,6 +19,22 @@ Workflow builder for Claude Code. Define standard workflows declaratively in `.w
 
 See `specs/2026-06-17-workflow-builder-design.md` for full design.
 
+## Skills 一览
+
+| Skill | 说明 |
+|-------|------|
+| `wf-build` | 工作流构建器，交互式创建标准工作流并编译为 skill + command |
+| `wf-prd-to-impl` | 从需求澄清到实施落地的标准开发工作流 |
+| `wf-code-review-fix` | 代码审查与修复工作流 |
+| `git-smart-commit` | 将杂乱 git 变更依功能逻辑拆分为多个 conventional commit |
+| `git-pr-description` | 根据分支差异自动生成 PR 标题与描述 |
+| `git-worktree-design` | 分析需求并拆分为多个 feature branch 并行开发 |
+| `skill-development` | skill 开发指南（结构、渐进式披露、最佳实践） |
+| `ui-ux-pro-max` | UI/UX 设计智能（样式、配色、字体、图表、技术栈） |
+| `unit-test-gen` | 系统化方法论生成高质量单元测试（Java/JUnit5，可扩展） |
+
+新增 skill 只需在 `.claude/skills/<name>/SKILL.md` 写好 frontmatter，欢迎页目录会自动收录（见下文 Welcome App）。
+
 ## Welcome App（Skills 欢迎页）
 
 仓库根目录内建一个 Vite + React + TypeScript 前端应用，作为 skills 的欢迎页与目录展示。
