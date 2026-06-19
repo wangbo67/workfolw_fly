@@ -1,5 +1,5 @@
 ---
-name: Git Smart Commit
+name: git-smart-commit
 description: 将杂乱的 git 变更，依功能逻辑自动拆分成多个有意义的 conventional commit
 ---
 
@@ -30,38 +30,38 @@ git diff --cached
 
 ---
 
-### 2. 分析并分群
+### 2. 分析并分组
 
-根据以下维度，将项目变更分成多个 **commit 群组**，每组代表一个独立的逻辑单元：
+根据以下维度，将项目变更分成多个 **commit 组**，每组代表一个独立的逻辑单元：
 
-#### 分群依据（优先顺序）
+#### 分组依据（优先顺序）
 
 | 优先级 | 维度 | 范例 |
 |--------|------|------|
 | 1 | **项目脚手架 / 设定档** | `package.json`, `vite.config.*`, `.gitignore`, `README.md`, `tsconfig.json` |
 | 2 | **资料层 / config data** | `src/data/*.js`, `src/constants/*`, `src/config/*` |
-| 3 | **元件（按元件名称分组）** | `src/components/Hero.jsx` + 对应测试 + 对应样式 |
+| 3 | **组件（按元件名称分组）** | `src/components/Hero.jsx` + 对应测试 + 对应样式 |
 | 4 | **页面 / 路由** | `src/pages/*`, `src/routes/*`, `src/App.jsx` |
 | 5 | **全域样式** | `src/index.css`, `src/styles/*`, `src/theme/*` |
 | 6 | **工具 / hooks / 型别** | `src/utils/*`, `src/hooks/*`, `src/types/*` |
 | 7 | **测试** | `__tests__/*`, `*.test.*`, `*.spec.*` |
 | 8 | **文件 / 其他** | `docs/*`, `*.md`（非 README）, 其他杂项 |
 
-#### 分群规则
+#### 分组规则
 
 - **同一元件的 JSX/TSX + CSS Module + 测试 → 归为同一组**
-- **相关的资料档如果是为某个元件服务 → 可考虑合并或独立**，取决于变更量
-- **若某一组只有 1 个档案且改动极小（< 5 行）→ 合并到最相关的邻近组**
+- **相关的资料档如果是为某个组件服务 → 可考虑合并或独立**，取决于变更量
+- **若某一组只有 1 个文档且改动极小（< 5 行）→ 合并到最相关的邻近组**
 - **新增文档用 `feat`，修改用 `fix` / `refactor` / `style`，删除用 `chore`**
 
 ---
 
-### 3. 产出 Commit 计画
+### 3. 产出 Commit 计划
 
-在执行任何 git 操作之前，先列出计画让使用者确认：
+在执行任何 git 操作之前，先列出计划让使用者确认：
 
 ```
-📋 Commit 计画（共 N 个 commit）
+📋 Commit 计划（共 N 个 commit）
 
 1. chore(project): 初始化项目设定与相依套件
    → package.json, vite.config.js, .gitignore
@@ -77,7 +77,7 @@ git diff --cached
 确认执行？(Y/n)
 ```
 
-使用 `notify_user` 工具向使用者展示计画并等待确认。
+使用 `notify_user` 工具向使用者展示计划并等待确认。
 
 ---
 
@@ -109,7 +109,7 @@ git commit -m "<type>(<scope>): <subject>"
 | `test` | 测试相关 |
 
 **scope 规则：**
-- 元件：用元件名称小写，例如 `hero`, `navbar`, `pricing`
+- 组件：用组件名称小写，例如 `hero`, `navbar`, `pricing`
 - 资料层：`data`
 - 全域样式：`style`
 - 项目设定：`project`
@@ -140,4 +140,4 @@ git log --oneline -20
 - **有冲突或 merge 状态**：提醒使用者先解决冲突，不执行任何操作
 - **有 `.env` 或敏感文档**：提醒使用者确认是否应被 gitignore，不自动提交
 - **变更量极大（> 50 个文档）**：先产出分组摘要，请使用者确认后再执行
-- **使用者已有部分 staged 变更**：尊重已 staged 的状态，将其视为一个独立群组或合并到最相关的群组
+- **使用者已有部分 staged 变更**：不修改已 staged 的状态，将其视为一个独立分组或合并到最相关的分组
