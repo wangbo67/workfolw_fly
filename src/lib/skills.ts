@@ -6,6 +6,8 @@ export interface SkillMeta {
   name: string
   /** skill 描述，来自 frontmatter 的 description 字段 */
   description: string
+  /** 该 skill 在 GitHub 仓库的目录 URL，无远端时为空字符串 */
+  githubUrl: string
 }
 
 /**
