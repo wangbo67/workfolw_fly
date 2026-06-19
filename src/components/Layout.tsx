@@ -20,7 +20,7 @@ export function Layout() {
               rel="noreferrer"
               className="hover:text-brand"
             >
-              文档
+              GitHub
             </a>
           </nav>
         </div>
