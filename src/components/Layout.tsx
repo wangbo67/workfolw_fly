@@ -1,4 +1,5 @@
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
+import { githubRepoUrl } from '../config'
 
 /**
  * App shell：header + 主内容区 + footer。
@@ -9,13 +10,13 @@ export function Layout() {
     <div className="flex min-h-full flex-col">
       <header className="border-b border-surface-border bg-surface">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <a href="/" className="text-lg font-semibold text-ink">
+          <Link to="/" className="text-lg font-semibold text-ink">
             workfolw_fly · Skills
-          </a>
+          </Link>
           <nav className="flex items-center gap-4 text-sm text-ink-muted">
-            <a href="/" className="hover:text-brand">首页</a>
+            <Link to="/" className="hover:text-brand">首页</Link>
             <a
-              href="https://github.com"
+              href={githubRepoUrl}
               target="_blank"
               rel="noreferrer"
               className="hover:text-brand"
