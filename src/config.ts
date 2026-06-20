@@ -9,7 +9,7 @@
 
 /** GitHub 仓库 URL（无尾斜杠），可由 VITE_GITHUB_REPO_URL 覆盖 */
 export const githubRepoUrl = (
-  import.meta.env.VITE_GITHUB_REPO_URL ?? 'https://github.com/wang67/workfolw_fly'
+  import.meta.env.VITE_GITHUB_REPO_URL ?? 'https://github.com/wangbo67/workfolw_fly'
 ).replace(/\/+$/, '')
 
 /** 默认分支名 */
