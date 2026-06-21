@@ -14,7 +14,7 @@ Workflow builder for Claude Code. Define standard workflows declaratively in `.w
 - `.claude/skills/wf-build/` — the generator skill
 - `.claude/skills/wf-<name>/` — compiled workflow skills
 - `.claude/commands/` — compiled slash command entry points
-- `SCHEMA.md` — workflow.md schema reference
+- `SCHEMA.md` — workflow.md schema reference（含节点 `skills` 字段：节点可委托给已有 skill 执行）
 - `specs/` — design and plan documents
 
 See `specs/2026-06-17-workflow-builder-design.md` for full design.
@@ -23,9 +23,9 @@ See `specs/2026-06-17-workflow-builder-design.md` for full design.
 
 | Skill | 说明 |
 |-------|------|
-| `wf-build` | 工作流构建器，交互式创建标准工作流并编译为 skill + command |
+| `wf-build` | 工作流构建器，交互式创建标准工作流并编译为 skill + command；节点可选推荐 prompt / 自定义 prompt / 调用现有 skill，artifact 路径可配置 |
 | `wf-prd-to-impl` | 从需求澄清到实施落地的标准开发工作流 |
-| `wf-code-review-fix` | 代码审查与修复工作流 |
+| `wf-code-review-fix` | 代码审查与修复工作流，review 节点委托 `code-review` skill 并补充人工检查 |
 | `git-smart-commit` | 将杂乱 git 变更依功能逻辑拆分为多个 conventional commit |
 | `git-pr-description` | 根据分支差异自动生成 PR 标题与描述 |
 | `git-worktree-design` | 分析需求并拆分为多个 feature branch 并行开发 |
