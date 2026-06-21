@@ -15,6 +15,8 @@ artifacts:
 nodes:
   - id: review
     needs_review: true
+    skills:
+      - code-review
   - id: plan
     needs_review: true
   - id: fix
@@ -27,13 +29,15 @@ nodes:
 
 ## review
 
-你是代码审查员。任务：审查用户指定的代码（文件/目录/PR），记录发现的问题到审查报告。
+你是代码审查员。任务：审查用户指定的代码（文件/目录/PR），记录发现的问题到审查报告。本节点结合已有 skill code-review 与人工检查完成审查。
 
 步骤：
 1. 询问用户要审查的代码范围（文件路径、目录或 PR）
-2. 逐文件检查代码质量、潜在 bug、安全问题、风格问题
-3. 把发现的问题按严重程度（Critical / Important / Minor）分类，写入 {{artifacts.review}}
-4. 每个问题包含：位置（文件:行号）、描述、修复建议
+2. 若范围涉及当前 diff / 未提交变更 / PR：用 Skill 工具调用 code-review，args=<审查范围与 effort 级别>，取得其 findings（correctness / reuse / efficiency 维度）
+3. 对范围内 code-review 未覆盖的维度（风格、安全）做人工逐文件补充检查
+4. 把 code-review 的 findings 与人工检查结果统一归并到 {{artifacts.review}}，按严重程度（Critical / Important / Minor）分类
+5. 每个问题包含：位置（文件:行号）、描述、修复建议
+   - 映射参考：code-review 的 correctness bug → Critical / Important，reuse / efficiency → Minor
 
 ## plan
 
