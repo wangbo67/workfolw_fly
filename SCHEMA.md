@@ -30,6 +30,7 @@ A workflow.md has two parts:
 |---|---|---|---|---|
 | `id` | string | yes | — | Unique node identifier. Must match a `## <id>` section in the body. |
 | `needs_review` | boolean | no | `false` | If `true`, inserts a human-review step (AskUserQuestion) after the node's prompt executes. |
+| `skills` | list[string] | no | `[]` | Existing skills (kebab-case names) the node delegates core execution to. When non-empty, the compiler injects a Skill-tool call preamble before the node's prompt; the prompt body wraps the call (prepare args → invoke → merge output into artifacts). Skill existence is environment-dependent and not enforced at compile time. |
 
 ## Body structure
 
@@ -78,6 +79,7 @@ The compiler enforces these rules. Violations abort compilation with an error re
 3. **Body sections match node ids**: every `nodes[].id` has exactly one `## <id>` section in the body, and vice versa
 4. **Artifact references resolved**: every `{{artifacts.xxx}}` placeholder in the body has a matching key in `artifacts`
 5. **Name is kebab-case**: matches `^[a-z0-9]+(-[a-z0-9]+)*$`
+6. **Skills field format (if present)**: a node's `skills`, if present, must be a list of strings each matching `^[a-z0-9]+(-[a-z0-9]+)*$` (kebab-case), with no duplicates. Skill existence is environment-dependent and is **not** verified at compile time.
 
 ## Example
 

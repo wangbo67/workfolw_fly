@@ -57,11 +57,17 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, TodoWrite
 - 问题："这个工作流会产出哪些文件？"
 - 选项（multiSelect: true）：["PRD 文档", "设计文档", "实施计划", "测试报告", Other]
 
-对每个选中的产出物，询问路径（默认 `docs/<name>.md`）：
-- 问题："<产出物名称> 的文件路径是什么？"
-- 选项：["docs/prd.md"（或对应默认）, Other]
+为选中的产出物分配 key（如 prd、design、plan），用于后续 `{{artifacts.xxx}}` 占位符。
 
-为每个产出物分配一个 key（如 prd、design、plan），用于后续 `{{artifacts.xxx}}` 占位符。
+询问 artifact 保存路径（先定基础目录，再逐个确认文件名）：
+1. 用 AskUserQuestion 询问基础目录：
+   - 问题："产出物统一存放在哪个基础目录？"
+   - 选项：["docs/（默认）", "specs/", Other]
+2. 对每个产出物，询问文件名（与基础目录组合成完整路径）：
+   - 问题："<产出物名称>（key=<key>）的文件名是什么？"
+   - 选项：["<key>.md（默认）", Other]
+   - 组合为 `<基础目录><文件名>`，如 `docs/prd.md`、`specs/design.md`
+   - 用户亦可通过 Other 对单个产出物指定完全自定义路径
 
 ### 步骤 3：逐节点收集
 
@@ -76,21 +82,42 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, TodoWrite
    - 选项：["需要（执行后暂停等人审）", "不需要（自动继续）"]
    - 默认 true
 
-2. 用 AskUserQuestion 询问节点 prompt：
-   - 问题："节点 `<id>` 的提示词是什么？描述这个节点要做什么、读什么、写什么。可以口语化，我会整理成结构化 prompt。"
-   - 用 Other 让用户自由输入
+2. 用 AskUserQuestion 询问节点执行方式：
+   - 问题："节点 `<id>` 如何执行？"
+   - 选项：["推荐 prompt（wf-build 自动推导）", "自定义 prompt（自己口述）", "调用现有 skill（指定 skill 名）"]
 
-3. 整理用户口述为结构化 prompt 段落：
-   - 开头用"你是<角色>。任务：<概述>。"
-   - 用编号列表写出具体步骤
-   - 涉及产出物的地方，用 `{{artifacts.<key>}}` 占位符
-   - 涉及读取上游产出物的地方，明确指示"读取 {{artifacts.<key>}} 的哪个章节"
+   **选「推荐 prompt」**：
+   - 根据 node id 语义 + 工作流整体目标 + artifacts，自动推导一个结构化 prompt：
+     - 开头用"你是<角色>。任务：<概述>。"
+     - 用编号列表写出具体步骤
+     - 涉及产出物的地方，用 `{{artifacts.<key>}}` 占位符
+     - 涉及读取上游产出物的地方，明确指示"读取 {{artifacts.<key>}} 的哪个章节"
+   - 展示推导出的 prompt，用 AskUserQuestion 确认：
+     - 问题："节点 `<id>` 的推荐 prompt 如上，是否采纳？"
+     - 选项：["采纳", Other（改写）]
+   - 该节点 `skills` 留空
+
+   **选「自定义 prompt」**：
+   - 用 AskUserQuestion 询问："节点 `<id>` 的提示词是什么？描述这个节点要做什么、读什么、写什么。可以口语化，我会整理成结构化 prompt。"
+   - 用 Other 让用户自由输入
+   - 整理为结构化 prompt 段落（开头"你是<角色>。任务：<概述>。" + 编号步骤 + `{{artifacts.<key>}}` 占位符）
+   - 该节点 `skills` 留空
+
+   **选「调用现有 skill」**：
+   - 用 AskUserQuestion 询问要调用的 skill 名："节点 `<id>` 要调用哪个已有 skill？（kebab-case，多个用逗号分隔，不限于内置 skill）"
+   - 用 Other 让用户自由输入，解析为 skill 名列表
+   - 生成**包裹式 prompt**（skill 负责核心执行，prompt 负责准备调用参数与归并输出）：
+     - 开头用"你是<角色>。任务：<概述>。本节点委托给已有 skill 执行。"
+     - 步骤包含：从上游 artifact / 用户输入准备调用 args → 调用该 skill → 把产出按既有结构归并到本节点 artifact（如四元组等）→ 补充 skill 未覆盖维度
+     - 涉及产出物用 `{{artifacts.<key>}}` 占位符
+   - 该节点 `skills` 记为用户输入的 skill 名列表
 
 ### 步骤 4：组装并预览
 
 把收集到的信息组装成 workflow.md 格式：
 - frontmatter（name/description/triggers/artifacts/nodes）
-- 正文（`# 工作流：<name>` + 每节点 `## <id>` 章节）
+  - 每个 node 含 `id`、`needs_review`；若该节点选了「调用现有 skill」，额外加 `skills: [...]`
+- 正文（`# 工作流：<name>` + 每节点 `## <id>` 章节，章节内容为该节点最终 prompt）
 
 在会话中完整展示组装后的 workflow.md 内容。
 
@@ -135,6 +162,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, TodoWrite
 4. **节点 id 唯一**：nodes 中无重复 id
 5. **正文章节匹配**：每个 nodes[].id 在正文中有且仅有一个 `## <id>` 章节，反之亦然
 6. **占位符可解析**：正文中所有 `{{artifacts.xxx}}` 的 xxx 都在 artifacts 映射中存在
+7. **skills 字段格式（若存在）**：每个节点若有 `skills`，须为字符串列表，每项匹配 `^[a-z0-9]+(-[a-z0-9]+)*$`（kebab-case），且无重复。**不强校验 skill 是否真实存在**（依赖运行环境），编译时附提示"skill `<name>` 的存在性依赖运行环境，请确认环境中可用"
 
 错误报告格式：
 ```
@@ -223,6 +251,13 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task, AskUserQuestion, TodoW
 
 ### <id>
 
+<若该 node 有 skills 字段（非空），在节点 prompt 正文前插入 Skill 调用前言：>
+
+本节点委托给已有 skill 执行。调用方式：
+<对每个 skill 生成：>
+- 使用 Skill 工具，skill="<skill-name>"，args="<根据下方步骤准备的参数>"
+取得 skill 产出后，按下方步骤归并到产出物。
+
 <替换占位符后的节点 prompt 正文>
 ```
 
@@ -259,6 +294,6 @@ allowed-tools: Skill
 完整 schema 定义见项目根 `SCHEMA.md`。关键点速查：
 
 - frontmatter 必填字段：name, description, triggers, artifacts, nodes
-- 节点字段：id（必填）、needs_review（默认 false）
+- 节点字段：id（必填）、needs_review（默认 false）、skills（可选，默认 []，委托给已有 skill 时填写）
 - 占位符：`{{artifacts.<key>}}`
-- 校验规则：字段完整、name kebab-case、节点 id 唯一、正文章节与节点 id 一一对应、占位符可解析
+- 校验规则：字段完整、name kebab-case、节点 id 唯一、正文章节与节点 id 一一对应、占位符可解析、skills（若有）为 kebab-case 列表且无重复
