@@ -1,9 +1,9 @@
 ---
-name: git-pr-description
+name: git-pr-draft
 description: 根据当前 branch 与目标 branch 的差异，自动产生 Pull Request 的 Title 与 Description。当使用者提到「PR」、「Pull Request」、「写 PR」、「PR 描述」、「PR description」、「建立 PR」时触发此 Skill。
 ---
 
-# Git PR Description — 自动产生 PR 标题与描述
+# Git PR Draft — 自动产生 PR 标题与描述
 
 根据当前 branch 相对于目标 branch（预设 `master`）的所有 commit 与 diff，产出结构化的 PR Title 与 Description。
 

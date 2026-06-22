@@ -1,11 +1,11 @@
 ---
-name: git-smart-commit
+name: git-commit-cluster
 description: 将杂乱的 git 变更，依功能逻辑自动拆分成多个有意义的 conventional commit
 ---
 
-# Git Smart Commit — 智慧拆分提交
+# Git Commit Cluster — 智慧拆分提交
 
-将目前所有 staged / unstaged 变更，依功能逻辑分群后，逐批 `git add` + `git commit`。
+将目前所有 staged / unstaged 变更，依功能逻辑分组后，逐批 `git add` + `git commit`。
 
 ---
 
@@ -21,7 +21,7 @@ git status --short
 
 若没有任何变更，告知使用者「目前没有需要提交的变更」后结束。
 
-接着取得所有变更的 diff 内容（用来判断分群逻辑）：
+接着取得所有变更的 diff 内容（用来判断分组逻辑）：
 
 ```bash
 git diff

@@ -38,7 +38,7 @@
 ## 验收标准
 
 - 访问 `/`，skill 目录每张卡片可点击
-- 点击任一卡片在新分页打开，URL 形如 `https://github.com/wang67/workfolw_fly/tree/main/.claude/skills/git-pr-description`，且该目录在 GitHub 上确实存在
+- 点击任一卡片在新分页打开，URL 形如 `https://github.com/wangbo67/workfolw_fly/tree/main/.claude/skills/git-pr-draft`，且该目录在 GitHub 上确实存在
 - 卡片 hover 有明显可交互反馈（cursor pointer、抬升、外链图标）
 - 描述超长的卡片，点击「展开/收起」按钮只切换展开状态，不触发跳转
 - `npm run gen-skills` 产出的 `skills.json` 每条目含正确的 `githubUrl`

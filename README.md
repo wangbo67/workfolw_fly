@@ -26,9 +26,9 @@ See `specs/2026-06-17-workflow-builder-design.md` for full design.
 | `wf-build` | 工作流构建器，交互式创建标准工作流并编译为 skill + command；节点可选推荐 prompt / 自定义 prompt / 调用现有 skill，artifact 路径可配置 |
 | `wf-prd-to-impl` | 从需求澄清到实施落地的标准开发工作流 |
 | `wf-code-review-fix` | 代码审查与修复工作流，review 节点委托 `code-review` skill 并补充人工检查 |
-| `git-smart-commit` | 将杂乱 git 变更依功能逻辑拆分为多个 conventional commit |
-| `git-pr-description` | 根据分支差异自动生成 PR 标题与描述 |
-| `git-worktree-design` | 分析需求并拆分为多个 feature branch 并行开发 |
+| `git-commit-cluster` | 将杂乱 git 变更依功能逻辑拆分为多个 conventional commit |
+| `git-pr-draft` | 根据分支差异自动生成 PR 标题与描述 |
+| `git-worktree-planner` | 分析需求并拆分为多个 feature branch 并行开发 |
 | `ui-ux-pro-max` | UI/UX 设计智能（样式、配色、字体、图表、技术栈） |
 | `web-design-engineer` | 构建精美可视化的 Web 前端产物（页面、仪表盘、原型、动画等） |
 | `unit-test-gen` | 系统化方法论生成高质量单元测试（Java/JUnit5，可扩展） |
