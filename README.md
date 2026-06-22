@@ -29,7 +29,6 @@ See `specs/2026-06-17-workflow-builder-design.md` for full design.
 | `git-smart-commit` | 将杂乱 git 变更依功能逻辑拆分为多个 conventional commit |
 | `git-pr-description` | 根据分支差异自动生成 PR 标题与描述 |
 | `git-worktree-design` | 分析需求并拆分为多个 feature branch 并行开发 |
-| `skill-development` | skill 开发指南（结构、渐进式披露、最佳实践） |
 | `ui-ux-pro-max` | UI/UX 设计智能（样式、配色、字体、图表、技术栈） |
 | `web-design-engineer` | 构建精美可视化的 Web 前端产物（页面、仪表盘、原型、动画等） |
 | `unit-test-gen` | 系统化方法论生成高质量单元测试（Java/JUnit5，可扩展） |

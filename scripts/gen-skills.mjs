@@ -19,6 +19,9 @@ const outPath = join(repoRoot, 'src', 'data', 'skills.json')
 const DEFAULT_BRANCH = 'main'
 const SKILLS_BASE_PATH = '.claude/skills'
 
+// 不在欢迎页目录展示的 skill（按 name 匹配；skill 文件本身保留，仅页面隐藏）
+const EXCLUDED_SKILLS = ['skill-development']
+
 /**
  * 从 git remote 推导 GitHub 仓库 URL（无尾斜杠）。
  * 兼容 https 与 ssh 两种格式：
@@ -69,6 +72,7 @@ for (const dir of readdirSync(skillsDir, { withFileTypes: true })) {
   const description =
     typeof data.description === 'string' ? data.description.trim() : ''
   if (!name) continue
+  if (EXCLUDED_SKILLS.includes(name)) continue // 页面隐藏
   const githubUrl = repoUrl
     ? `${repoUrl}/tree/${DEFAULT_BRANCH}/${SKILLS_BASE_PATH}/${name}`
     : ''
