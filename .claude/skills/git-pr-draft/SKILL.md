@@ -92,7 +92,7 @@ git diff master..HEAD
 
 ### 5. 产生 PR Description
 
-使用 `references/pr-template.md` 中的模板产生 Description。
+依下方模板结构产生 Description。
 
 #### Description 结构
 
@@ -103,7 +103,7 @@ git diff master..HEAD
 
 ## ⚠️ 修改的内容
 
-依功能与需求分组：
+依功能与需求分组，每组列出修改方向与具体内容。
 - **功能名称 / 需求项目**：说明此组变更的业务目标
 - **修改方向**：简述（效能、修复、样式等）
 - **内容**：列出具体修改点，**禁止**出现任何文档路径（包含相对路径），一律改用功能描述，例如「新增手风琴展开动画」而非「修改 `src/components/FAQ.jsx`」
@@ -121,7 +121,7 @@ git diff master..HEAD
 
 ## 🧪 测试步骤
 
-> **规则：必须为「修改的内容」中列出的每一个模块 / 组件都产生至少一个对应的测试案例，确保所有变更皆被涵盖。**
+必须为「修改的内容」中列出的每一个模块 / 组件都产生至少一个对应的测试案例，确保所有变更皆被涵盖，不可遗漏。每个测试案例需包含：明确的测试情境名称（标注对应模块 / 组件）、操作步骤（step by step）、预期结果。若为前端项目，需搭配截图示意。
 
 ### 测试案例 1：[针对模块 A 的测试情境]
 
@@ -171,9 +171,3 @@ git diff master..HEAD
 ## 边界情况处理
 
 - **存在未提交的变更**：提醒使用者先提交或 stash，避免遗漏
-
-## Additional Resources
-
-### Reference Files
-
-- **`references/pr-template.md`** — PR Description 的完整模板，可依团队需求定制化
